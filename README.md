@@ -34,7 +34,7 @@ The service will return immediately, but the hash will not be available for 5 se
 | Error     | Description |
 |-----------|-------------|
 | 200       | OK          |
-| 400       | Bad Reques. No password was found int the request. |
+| 400       | Bad Request. No password was found int the request. |
 | 405       | Method not allowed. Only POST methods are allowed. |
 | 503       | Service unavailabl. The service is in the process of shutting down and new hash requests are not allowed. |
 
