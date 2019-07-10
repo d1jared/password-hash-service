@@ -20,19 +20,19 @@ The service will return immediately, but the hash will not be available for 5 se
 ### Request Parameters
 
 | Name     | Description |
-|----------|-------------|
+| :---     | :---        |
 | password | The password string to SHA512 encode. type: string. *required*. |
 
 ### Response
 
 | Name     | Description |
-|----------|-------------|
+| :---     | :---        |
 | id       | The id of the hash created.  The id auto-increments from 1. type: int64. |
 
 ### Error Codes
 
 | Error     | Description |
-|-----------|-------------|
+| :---     | :---        |
 | 200       | OK          |
 | 400       | Bad Request. No password was found int the request. |
 | 405       | Method not allowed. Only POST methods are allowed. |
@@ -45,19 +45,19 @@ Fetch the password hash for the {id} record.
 ### Path Parameters
 
 | Name     | Description |
-|----------|-------------|
+| :---     | :---        |
 | id       | The id returned by a previous call to POST. type: int64. *required*. |
 
 ### Response
 
 | Name     | Description |
-|----------|-------------|
+| :---     | :---        |
 | hash     | The SHA512 hash of the password base64 encoded. type: string. |
 
 ### Error Codes
 
 | Error     | Description |
-|-----------|-------------|
+| :---     | :---        |
 | 200       | OK          |
 | 400       | Bad Request. The path didn't contain an id. |
 | 404       | Not found. The id was not found.  Remember, it takes 5 secs for the hash to be available. |
@@ -83,14 +83,14 @@ Fetch the stats for the service.
 ### Response
 
 | Name     | Description |
-|----------|-------------|
+| :---     | :---        |
 | total    | The total number of times POST hash has been called since the service started. type: int64. |
 | average  | The average time to execute all the POST requests in *microseconds*. type: int64. |
 
 ### Error Codes
 
 | Error     | Description |
-|-----------|-------------|
+| :---      | :---        |
 | 200       | OK          |
 | 405       | Method not allowed. Only GET methods are allowed. |
 | 503       | Service unavailable. The service is in the process of shutting down and new hash requests are not allowed. |
@@ -106,7 +106,7 @@ Shutdown the service.  Wait for all pending hashes to complete.
 ### Error Codes
 
 | Error     | Description |
-|-----------|-------------|
+| :---      | :---        |
 | 200       | OK        |
 | 405       | Method not allowed. Only GET methods are allowed. |
 | 503       | Service unavailable. The service is in the process of shutting down and new hash requests are not allowed. |
