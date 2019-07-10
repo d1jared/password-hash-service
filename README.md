@@ -21,8 +21,8 @@ The service will return immediately, but the hash will not be available for 5 se
 
 | Name     | Description |
 |----------|-------------|
-| password | string\      |
-|          | The password string to SHA512 encode.\ |
+| password | string<br>      |
+|          | The password string to SHA512 encode.<br> |
 |          | *required* |
 
 ### Response
