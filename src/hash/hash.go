@@ -3,14 +3,14 @@ package main
 import ( 
 	"fmt"
 	"log"
-    "net/http"
-    "os"
-    "strings"
-    "strconv"
-    "time"
-    "encoding/base64"
-    "crypto/sha512"
-    "sync"
+	"net/http"
+	"os"
+	"strings"
+	"strconv"
+	"time"
+	"encoding/base64"
+	"crypto/sha512"
+	"sync"
 )
 
 // Server stats
@@ -151,8 +151,8 @@ func createHash(response http.ResponseWriter, request *http.Request) {
 		// Wait 5 seconds
 		<-timer.C
 		
-	    // Store in map
-	    m[id] = hash64;
+		// Store in map
+		m[id] = hash64;
 	}()
 	
 	fmt.Fprintf(response, "%d", id)
@@ -185,15 +185,16 @@ func statusHandler(response http.ResponseWriter, request *http.Request) {
 	if requests == 0 {
 		fmt.Fprintf(response, "{\"total\": 0, \"average\": 0}")
 	} else {
-        fmt.Fprintf(response, "{\"total\": %d, \"average\": %d}", requests, totalTime/requests)
+		fmt.Fprintf(response, "{\"total\": %d, \"average\": %d}", requests, totalTime/requests)
 	}
     
-    log.Print("GET stats: Done");
+	log.Print("GET stats: Done");
 }
 
 // Handle the GET shutdown request
 func shutdownHandler(response http.ResponseWriter, request *http.Request) {
 	log.Print("GET shutdown");
+	
 	// Check for shutdown
 	if(isShutdown == true) {
 		http.Error(response, "503 Service unavailable.", http.StatusServiceUnavailable)
@@ -201,7 +202,7 @@ func shutdownHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
     
-    isShutdown = true;
+	isShutdown = true;
     
 	// delay shutdown for 6 second: let any pending POSTs complete
 	timer := time.NewTimer(6 * time.Second)
@@ -209,7 +210,7 @@ func shutdownHandler(response http.ResponseWriter, request *http.Request) {
 		// Wait 6 seconds
 		<-timer.C
 		log.Print("GET shutdown: Stopping hash service"); 
-	    os.Exit(0)
+		os.Exit(0)
 	}()
 	
 	log.Print("GET shutdown: Done");
@@ -236,5 +237,5 @@ func main() {
 	http.HandleFunc("/shutdown", shutdownHandler);
 	
 	// Start the server
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
