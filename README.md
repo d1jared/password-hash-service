@@ -9,15 +9,7 @@ The project was created as a coding exercise for [JumpCloud](http://www.jumpclou
 
 Create a new password hash.
 
-### Request Parameters
-
-| Name     | Description |
-|----------|-------------|
-| password | string      |
-|          | The password string to SHA512 encode. |
-|          | *required* |
-
-
+The service will return immediately, but the hash will not be available for 5 secs (yes, this is unusual, but it was a requirement for the coding assignment.)
 
 ### Example
 ```
@@ -25,7 +17,65 @@ Create a new password hash.
 > 1
 ```
 
-## GET hash/{id}
+### Request Parameters
+
+| Name     | Description |
+|----------|-------------|
+| password | string\      |
+|          | The password string to SHA512 encode.\ |
+|          | *required* |
+
+### Response
+
+| Name     | Description |
+|----------|-------------|
+| id       | int\      |
+|          | The id of the hash created.  The id auto-increments from 1.\ |
+
+### Error Codes
+
+| Error     | Description |
+|----------|-------------|
+| 200       | OK\        |
+| 400       | Bad Request\ |
+|           | No password was found int the request. |
+| 405       | Method not allowed\ |
+|           | Only POST methods are allowed. |
+| 503       | Service unavailable\ |
+|           | The service is in the process of shutting down and new hash requests are not allowed. |
+
+## GET hash/{id}]
+
+Fetch the password hash for the {id} record.
+
+### Path Parameters
+
+| Name     | Description |
+|----------|-------------|
+| id       | int\      |
+|          | The id returned by a previous call to POST.\ |
+|          | *required* |
+
+### Response
+
+| Name     | Description |
+|----------|-------------|
+| hash     | string\      |
+|          | The SHA512 hash of the password base64 encoded.\ |
+
+### Error Codes
+
+| Error     | Description |
+|----------|-------------|
+| 200       | OK\        |
+| 400       | Bad Request\ |
+|           | The path didn't contain an id. |
+| 404       | Not found\ |
+|           | The id was not found.  Remember, it takes 5 secs for the hash to be available. |
+| 405       | Method not allowed\ |
+|           | Only GET methods are allowed. |
+| 503       | Service unavailable\ |
+|           | The service is in the process of shutting down and new hash requests are not allowed. |
 
 ### Example
 ```
@@ -35,15 +85,47 @@ Create a new password hash.
 
 ## GET stats
 
+Fetch the stats for the service.
+
 ### Example
 ```
 > curl http://localhost:8080/stats
 > {"total": 4, "average": 1195}
 ```
 
+### Response
+
+| Name     | Description |
+|----------|-------------|
+| total    | int64\      |
+|          | The total number of times POST hash has been called since the service started.\ |
+| average  | int64\      |
+|          | The average time to execute all the POST requests in microseconds. |
+
+### Error Codes
+
+| Error     | Description |
+|----------|-------------|
+| 200       | OK\        |
+| 405       | Method not allowed\ |
+|           | Only GET methods are allowed. |
+| 503       | Service unavailable\ |
+|           | The service is in the process of shutting down and new hash requests are not allowed. |
+
 ## GET shutdown
+
+Shutdown the service.  Wait for all pending hashes to complete.
 
 ### Example
 ```
 > curl http://localhost:8080/shutdown
 ```
+### Error Codes
+
+| Error     | Description |
+|----------|-------------|
+| 200       | OK\        |
+| 405       | Method not allowed\ |
+|           | Only GET methods are allowed. |
+| 503       | Service unavailable\ |
+|           | The service is in the process of shutting down and new hash requests are not allowed. |
