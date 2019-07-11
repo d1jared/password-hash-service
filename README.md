@@ -9,7 +9,7 @@ The project was created as a coding exercise for [JumpCloud](http://www.jumpclou
 
 * The object identifiers are not random.  They increment monotonically by 1 with every POST request. When the service is restarted, the identifiers start at 1 again.  This is not particularly useful for a real production service, but it's a good exercise in thread locking.
 
-* Since the passwords are persisted in-memory, the service is not designed to scale behind a load balance.  You can only run one instance of the service.
+* Since the passwords are persisted in-memory, the service is not designed to scale behind a load balancer.  You can only run one instance of the service.
 
 * The service is not secure.  The current implementation doesn't use TLS: passwords should always be transported using TLS.  Also, the endpoints don't include any token validation for authentication/authorization.
 
@@ -17,13 +17,15 @@ The project was created as a coding exercise for [JumpCloud](http://www.jumpclou
 
 * The service status data is very limited.  The status should include: P95 and P99 times, memory usage/stress, cpu usage/stress.
 
+* Life is to be enjoyed.
+
 # Endpoints
 
 ## POST hash/
 
 Create a new password hash.
 
-The service will return immediately, but the hash will not be available for 5 secs (yes, this is unusual, but it was a requirement for the coding assignment.)
+The service will return immediately, but the hash will not be available for 5 secs (yes, this is unusual, but it was a requirement for the coding exercise). The service returns the identifier of the hash that can be fetched using the GET endpoint below.
 
 ### Example
 ```
@@ -41,7 +43,7 @@ The service will return immediately, but the hash will not be available for 5 se
 
 | Name     | Description |
 | :---     | :---        |
-| id       | The id of the hash created.  The id auto-increments from 1. type: int64. |
+| id       | The identifer of the hash created.  The id auto-increments from 1. type: int64. |
 
 ### Error Codes
 
@@ -60,7 +62,7 @@ Fetch the password hash for the {id} record.
 
 | Name     | Description |
 | :---     | :---        |
-| id       | The id returned by a previous call to POST. type: int64. *required*. |
+| id       | The identifier returned by a previous call to POST. type: int64. *required*. |
 
 ### Response
 
@@ -71,7 +73,7 @@ Fetch the password hash for the {id} record.
 ### Error Codes
 
 | Error     | Description |
-| :---     | :---        |
+| :---      | :---        |
 | 200       | OK          |
 | 400       | Bad Request. The path didn't contain an id. |
 | 404       | Not found. The id was not found.  Remember, it takes 5 secs for the hash to be available. |
