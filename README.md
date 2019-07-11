@@ -1,7 +1,21 @@
 # Description
-This project contains a simple service for hashing passwords using SHA512.
+This project contains a simple service for hashing passwords.  Given a password, the service will hash the password using [SHA512](https://en.wikipedia.org/wiki/SHA-2) and convert it to [base64](https://en.wikipedia.org/wiki/Base64) encoding.
 
 The project was created as a coding exercise for [JumpCloud](http://www.jumpcloud.com).
+
+# Assumptions
+
+* The hashed passwords are persisted in-memory: there is no long-term persistence. When the service is stopped, all hashed passwords are gone.
+
+* The object identifiers are not random.  They increment monotonically by 1 with every POST request. When the service is restarted, the identifiers start at 1 again.  This is not particularly useful for a real production service, but it's a good exercise in thread locking.
+
+* Since the passwords are persisted in-memory, the service is not designed to scale behind a load balance.  You can only run one instance of the service.
+
+* The service is not secure.  The current implementation doesn't use TLS: passwords should always be transported using TLS.  Also, the endpoints don't include any token validation for authentication/authorization.
+
+* The service doesn't place any limits on the request body size.  In general, there is an assumption that the service will not be accessible by evil clients.  Adding request limits is not too difficult, if needed.
+
+* The service status data is very limited.  The status should include: P95 and P99 times, memory usage/stress, cpu usage/stress.
 
 # Endpoints
 
